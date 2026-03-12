@@ -3,42 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Калькулятор Кешбэка</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Сбер Кешбэк Калькулятор</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
     <script src="./script.js" defer></script>
 </head>
 <body>
 
     <main class="container">
-        <section class="info-panel">
-            <h1>Система учета кешбэка</h1>
-            <p class="description">
-                <strong>Услуги:</strong> категории с процентом кешбэка.<br>
-                <strong>Заявки:</strong> ежемесячные сводки по клиентам с разбивкой трат и расчетом величины начислений.
-            </p>
+        <!-- Блок навигации -->
+        <section class="navigation-panel card">
+            <div class="sber-logo-placeholder">
+                <span class="logo-circle"></span>
+                <h1 class="nav-title">Сервисы</h1>
+            </div>
 
-            <div class="controls">
-                <a href="https://github.com/iu5git/JavaScript/tree/main/tutorials/lab1" class="btn-link" target="_blank">
-                    GitHub репозиторий
-                </a>
+            <div class="nav-links">
+                <a href="info.html" class="btn-link nav-btn">О системе кешбэка</a>
+                <a href="user.html" class="btn-link nav-btn">Профиль пользователя</a>
+            </div>
 
-                <div class="theme-switcher">
-                    <label for="theme-select">Тема оформления:</label>
-                    <select id="theme-select">
-                        <option value="light">Светлая тема</option>
-                        <option value="dark">Темная тема</option>
-                    </select>
-                </div>
-
-                <details class="author-info">
-                    <summary>Информация об авторе</summary>
-                    <p>Студент: Воробьев Е.А.<br>Группа: ИУ5-42Б<br>Вдохновлено дизайном Сбера</p>
-                </details>
+            <div class="theme-switcher">
+                <label for="theme-select">Оформление:</label>
+                <select id="theme-select">
+                    <option value="light">Светлая тема</option>
+                    <option value="dark">Темная тема</option>
+                </select>
             </div>
         </section>
 
-        <section class="calculator-card">
+        <!-- Калькулятор -->
+        <section class="calculator-card card">
             <div id="result" class="display">0</div>
 
             <div class="keyboard">

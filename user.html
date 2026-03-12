@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль пользователя</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./script.js" defer></script>
+</head>
+
+<body>
+
+    <main class="container">
+        <section class="info-card card">
+            <div class="sber-logo-placeholder">
+                <span class="logo-circle"></span>
+                <h1>Профиль</h1>
+            </div>
+
+            <div class="profile-header">
+                <div class="avatar-wrapper">
+                    <img src="./avatar.jpg" alt="Аватар пользователя" class="user-avatar">
+                </div>
+                <h2 class="profile-name">Воробьев Е.А.</h2>
+                <p class="profile-subtitle">Студент группы ИУ5-42Б</p>
+            </div>
+
+            <div class="content-box user-details">
+                <div class="detail-row">
+                    <span class="detail-label">Подписка:</span>
+                    <span class="detail-value"
+                        style="color: var(--primary-color); font-weight: 700;">СберСтудент+</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Дизайн:</span>
+                    <span class="detail-value sber-brand">В стиле Сбера</span>
+                </div>
+            </div>
+
+            <div class="controls">
+                <a href="https://github.com/iu5git/JavaScript/tree/main/tutorials/lab1" class="btn-link github-btn"
+                    target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M12 2C6.477 2 2 6.477 2 12C2 16.418 4.865 20.166 8.839 21.492C9.339 21.584 9.52 21.276 9.52 21.016C9.52 20.785 9.511 19.986 9.506 18.913C6.726 19.517 6.139 17.572 6.139 17.572C5.684 16.417 5.028 16.111 5.028 16.111C4.12 15.491 5.097 15.503 5.097 15.503C6.102 15.574 6.63 16.536 6.63 16.536C7.525 18.069 8.978 17.625 9.559 17.368C9.649 16.702 9.919 16.258 10.218 16.012C7.994 15.759 5.65 14.898 5.65 10.966C5.65 9.845 6.05 8.927 6.697 8.216C6.592 7.96 6.241 6.918 6.797 5.541C6.797 5.541 7.65 5.268 9.502 6.521C10.311 6.296 11.168 6.184 12.015 6.18C12.862 6.184 13.719 6.296 14.529 6.521C16.38 5.268 17.232 5.541 17.232 5.541C17.789 6.918 17.438 7.96 17.334 8.216C17.982 8.927 18.38 9.845 18.38 10.966C18.38 14.91 16.033 15.755 13.803 16.002C14.178 16.326 14.512 16.963 14.512 17.955C14.512 19.378 14.501 20.528 14.501 20.887C14.501 21.152 14.678 21.465 15.184 21.368C19.141 20.047 22 16.291 22 11.884C22 6.363 17.523 1.884 12 1.884Z" />
+                    </svg>
+                    GitHub репозиторий
+                </a>
+
+                <a href="calculator.html" class="btn-link back-btn">
+                    ← Вернуться к калькулятору
+                </a>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>
