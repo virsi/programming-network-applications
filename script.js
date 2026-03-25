@@ -30,12 +30,31 @@ if (display) {
     let waitingForSecondOperand = false;
     let operator = null;
 
-    function updateDisplay() {
-        // Ограничиваем длину вывода, чтобы не вылезало за пределы экрана
-        let output = String(displayValue);
-        if (output.length > 12) {
-            output = output.substring(0, 12);
+    const MAX_DIGITS = 10;
+
+    function formatNumber(numStr) {
+        // Форматируем число для экрана калькулятора
+        const num = parseFloat(numStr);
+        if (isNaN(num)) return 'Ошибка';
+        if (!isFinite(num)) return 'Ошибка';
+
+        const str = String(num);
+
+        // Если число помещается — показываем как есть
+        if (str.length <= MAX_DIGITS) {
+            return str;
         }
+
+        // Для очень больших или очень маленьких чисел — экспоненциальная запись
+        const expStr = num.toExponential(4);
+        if (expStr.length <= MAX_DIGITS) {
+            return expStr;
+        }
+        return num.toExponential(2);
+    }
+
+    function updateDisplay() {
+        let output = formatNumber(displayValue);
         display.innerText = output;
     }
 
@@ -44,6 +63,10 @@ if (display) {
             displayValue = digit;
             waitingForSecondOperand = false;
         } else {
+            // Ограничиваем количество вводимых цифр
+            if (displayValue.replace(/[^0-9]/g, '').length >= MAX_DIGITS) {
+                return;
+            }
             displayValue = displayValue === '0' ? digit : displayValue + digit;
         }
     }
@@ -165,4 +188,80 @@ if (display) {
             updateDisplay();
         });
     }
+
+    // ==============================
+    // ВВОД С КЛАВИАТУРЫ
+    // ==============================
+    document.addEventListener('keydown', (event) => {
+        const key = event.key;
+
+        // Цифры 0-9
+        if (key >= '0' && key <= '9') {
+            event.preventDefault();
+            inputDigit(key);
+            updateDisplay();
+            return;
+        }
+
+        switch (key) {
+            case '+':
+                event.preventDefault();
+                handleOperator('+');
+                break;
+            case '-':
+                event.preventDefault();
+                handleOperator('−');
+                break;
+            case '*':
+                event.preventDefault();
+                handleOperator('×');
+                break;
+            case '/':
+                event.preventDefault();
+                handleOperator('÷');
+                break;
+            case '%':
+                event.preventDefault();
+                handlePercent();
+                break;
+            case '.':
+            case ',':
+                event.preventDefault();
+                inputDecimal('.');
+                break;
+            case 'Enter':
+            case '=':
+                event.preventDefault();
+                if (operator) {
+                    const inputValue = parseFloat(displayValue);
+                    const result = calculate(firstOperand, inputValue, operator);
+                    displayValue = `${parseFloat(result.toFixed(7))}`;
+                    firstOperand = null;
+                    operator = null;
+                    waitingForSecondOperand = true;
+                }
+                break;
+            case 'Escape':
+            case 'Delete':
+            case 'c':
+            case 'C':
+            case 'с': // русская С
+            case 'С': // русская С заглавная
+                event.preventDefault();
+                resetCalculator();
+                break;
+            case 'Backspace':
+                event.preventDefault();
+                if (!waitingForSecondOperand && displayValue.length > 1) {
+                    displayValue = displayValue.slice(0, -1);
+                } else {
+                    displayValue = '0';
+                }
+                break;
+            default:
+                return; // Не обновляем дисплей для нераспознанных клавиш
+        }
+
+        updateDisplay();
+    });
 }
