@@ -1,27 +1,19 @@
-// ==============================
-// ЛОГИКА ТЕМЫ (ДЛЯ ВСЕХ СТРАНИЦ)
-// ==============================
 const themeSelect = document.getElementById('theme-select');
 const savedTheme = localStorage.getItem('theme') || 'light';
 
-// Инициализация темы
 document.body.classList.add(savedTheme + '-theme');
 
 if (themeSelect) {
     themeSelect.value = savedTheme;
 
-    // Обработчик изменений
     themeSelect.addEventListener('change', function () {
         const newTheme = this.value;
-        document.body.className = ''; // Сброс классов
+        document.body.className = '';
         document.body.classList.add(newTheme + '-theme');
         localStorage.setItem('theme', newTheme);
     });
 }
 
-// ==============================
-// ЛОГИКА КАЛЬКУЛЯТОРА
-// ==============================
 const display = document.getElementById('result');
 
 if (display) {
@@ -33,19 +25,16 @@ if (display) {
     const MAX_DIGITS = 10;
 
     function formatNumber(numStr) {
-        // Форматируем число для экрана калькулятора
         const num = parseFloat(numStr);
         if (isNaN(num)) return 'Ошибка';
         if (!isFinite(num)) return 'Ошибка';
 
         const str = String(num);
 
-        // Если число помещается — показываем как есть
         if (str.length <= MAX_DIGITS) {
             return str;
         }
 
-        // Для очень больших или очень маленьких чисел — экспоненциальная запись
         const expStr = num.toExponential(4);
         if (expStr.length <= MAX_DIGITS) {
             return expStr;
@@ -63,7 +52,6 @@ if (display) {
             displayValue = digit;
             waitingForSecondOperand = false;
         } else {
-            // Ограничиваем количество вводимых цифр
             if (displayValue.replace(/[^0-9]/g, '').length >= MAX_DIGITS) {
                 return;
             }
@@ -93,7 +81,6 @@ if (display) {
         if (firstOperand == null && !isNaN(inputValue)) {
             firstOperand = inputValue;
         } else if (operator) {
-            // Выполняем предыдущее вычисление
             const result = calculate(firstOperand, inputValue, operator);
             displayValue = `${parseFloat(result.toFixed(7))}`;
             firstOperand = result;
@@ -130,29 +117,24 @@ if (display) {
     }
 
     function handlePercent() {
-        // Простой расчет процента относительно текущего значения
         if (firstOperand !== null && operator && !waitingForSecondOperand) {
             const percentage = (firstOperand * parseFloat(displayValue)) / 100;
             displayValue = String(percentage);
         } else {
-            // Если нет операции, то просто делим на 100
             displayValue = (parseFloat(displayValue) / 100).toString();
         }
     }
 
-    // Привязываем обработчики событий
     const keyboard = document.querySelector('.keyboard');
 
     if (keyboard) {
         keyboard.addEventListener('click', (event) => {
             const target = event.target;
 
-            // Если клик не по кнопке - игнорируем
             if (!target.matches('button')) {
                 return;
             }
 
-            // Обработка специальных кнопок
             switch (target.id) {
                 case 'btn_op_clear':
                     resetCalculator();
@@ -177,7 +159,6 @@ if (display) {
                     }
                     break;
                 default:
-                    // Обработка цифр и операций
                     if (target.classList.contains('digit')) {
                         inputDigit(target.innerText);
                     } else if (target.classList.contains('primary')) {
@@ -189,9 +170,6 @@ if (display) {
         });
     }
 
-    // ==============================
-    // ВВОД С КЛАВИАТУРЫ
-    // ==============================
     document.addEventListener('keydown', (event) => {
         const key = event.key;
 
@@ -259,7 +237,7 @@ if (display) {
                 }
                 break;
             default:
-                return; // Не обновляем дисплей для нераспознанных клавиш
+                return;
         }
 
         updateDisplay();
