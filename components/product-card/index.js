@@ -3,10 +3,16 @@ export class ProductCardComponent {
         this.parent = parent;
     }
 
+    getPercent(data) {
+        const saved = JSON.parse(localStorage.getItem('cashbackPercents') || '{}');
+        return saved[data.id] !== undefined ? saved[data.id] : data.percent;
+    }
+
     getHTML(data) {
+        const percent = this.getPercent(data);
         return `
             <div class="card cashback-card" id="card-${data.id}" data-id="${data.id}">
-                <div class="cashback-badge">${data.percent}%</div>
+                <div class="cashback-badge">${percent}%</div>
                 <div class="card-image-wrapper">
                     <img src="${data.src}" class="cashback-card-img" alt="${data.title}">
                 </div>

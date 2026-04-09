@@ -328,6 +328,47 @@ body {
     justify-content: center;
 }
 
+/* --- Percent Input --- */
+
+.percent-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.percent-label {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.percent-input {
+    padding: 14px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.percent-input:focus {
+    border-color: var(--primary-color);
+}
+
+/* --- Clickable Logo --- */
+
+.sber-logo-clickable {
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.sber-logo-clickable:hover {
+    opacity: 0.7;
+}
+
 @media (max-width: 768px) {
     .product-info-grid {
         grid-template-columns: 1fr;

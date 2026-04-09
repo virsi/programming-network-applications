@@ -22,20 +22,16 @@ export class ToastComponent {
             clearTimeout(this.timeoutId);
         }
 
-        // Clear existing toast if any
         this.parent.innerHTML = '';
         this.parent.classList.remove('show');
 
-        // Render new toast
         const html = this.getHTML(message);
         this.parent.insertAdjacentHTML('beforeend', html);
 
-        // Animate show
         setTimeout(() => {
             this.parent.classList.add('show');
         }, 10);
 
-        // Auto hide after 3 seconds
         this.timeoutId = setTimeout(() => {
             this.hide();
         }, 3000);
@@ -47,6 +43,6 @@ export class ToastComponent {
             if (!this.parent.classList.contains('show')) {
                 this.parent.innerHTML = '';
             }
-        }, 500); // Wait for transition to finish
+        }, 500);
     }
 }
