@@ -1,0 +1,112 @@
+{
+  "info": {
+    "_postman_id": "sber-cashback-api-collection",
+    "name": "Sber Cashback API",
+    "description": "Коллекция запросов для тестирования REST API системы учета кешбэка Сбер",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    }
+  ],
+  "item": [
+    {
+      "name": "GET /categories — Список всех категорий",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/categories",
+          "host": ["{{baseUrl}}"],
+          "path": ["categories"]
+        }
+      }
+    },
+    {
+      "name": "POST /categories — Добавить категорию",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"src\": \"assets/entertainment.png\",\n  \"title\": \"Кино и развлечения\",\n  \"text\": \"Выгода на билеты в кино и парки.\",\n  \"percent\": 12\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/categories",
+          "host": ["{{baseUrl}}"],
+          "path": ["categories"]
+        }
+      }
+    },
+    {
+      "name": "GET /categories/:id — Категория по ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/categories/5",
+          "host": ["{{baseUrl}}"],
+          "path": ["categories", "5"]
+        }
+      }
+    },
+    {
+      "name": "PATCH /categories/:id — Редактировать по ID",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"percent\": 25\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/categories/5",
+          "host": ["{{baseUrl}}"],
+          "path": ["categories", "5"]
+        }
+      }
+    },
+    {
+      "name": "DELETE /categories/:id — Удалить по ID",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/categories/5",
+          "host": ["{{baseUrl}}"],
+          "path": ["categories", "5"]
+        }
+      }
+    },
+    {
+      "name": "GET /categories?title=... — Фильтрация",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/categories?title=Такси",
+          "host": ["{{baseUrl}}"],
+          "path": ["categories"],
+          "query": [
+            {
+              "key": "title",
+              "value": "Такси"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
