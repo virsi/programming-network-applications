@@ -2,6 +2,10 @@ import {ProductComponent} from "../../components/product/index.js";
 import {BackButtonComponent} from "../../components/back-button/index.js";
 import {ToastComponent} from "../../components/toast/index.js";
 import {MainPage} from "../main/index.js";
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import * as Utils from "../../utils/cashbackUtils.js";
 
 export class ProductPage {
     constructor(parent, id) {
@@ -49,6 +53,9 @@ export class ProductPage {
             return;
         }
 
+        // --- Task requirement: do...while loop (post-condition) ---
+        Utils.simulateProcessing(3); 
+
         const saved = JSON.parse(localStorage.getItem('cashbackPercents') || '{}');
         saved[id] = newPercent;
         localStorage.setItem('cashbackPercents', JSON.stringify(saved));
@@ -66,6 +73,77 @@ export class ProductPage {
         toast.show('Категория успешно активирована!');
     }
 
+    init3DModel() {
+        const container = document.getElementById('product-3d-canvas');
+        if (!container) return;
+
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xf2f3f5);
+
+        const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.z = 5;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        container.innerHTML = '';
+        container.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(5, 5, 5);
+        scene.add(directionalLight);
+
+        // Task Part 2: Load .glb model
+        // Using a gold coin as a fallback/default object
+        const loader = new GLTFLoader();
+        
+        // --- Coin Model (Cylinder) ---
+        const coinGeometry = new THREE.CylinderGeometry(1.5, 1.5, 0.2, 32);
+        const coinMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0xffd700, // Gold
+            metalness: 0.9, 
+            roughness: 0.1 
+        });
+        const coin = new THREE.Mesh(coinGeometry, coinMaterial);
+        coin.rotation.x = Math.PI / 2; // Flat position
+        scene.add(coin);
+
+        // Try loading a real model (even if it's missing, we show the coin)
+        loader.load(
+            'assets/models/cashback_coin.glb', 
+            (gltf) => {
+                scene.remove(coin); // Remove fallback
+                scene.add(gltf.scene);
+                gltf.scene.position.set(0, 0, 0);
+            },
+            undefined,
+            (error) => {
+                console.warn('Could not load .glb model, using fallback coin.', error);
+            }
+        );
+
+        const animate = () => {
+            requestAnimationFrame(animate);
+            // Spinning coin animation
+            coin.rotation.z += 0.02; 
+            controls.update();
+            renderer.render(scene, camera);
+        };
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+    }
+
     render() {
         this.parent.innerHTML = '';
         const html = this.getHTML();
@@ -77,5 +155,33 @@ export class ProductPage {
         const data = this.getData(this.id);
         const product = new ProductComponent(this.pageRoot);
         product.render(data, this.clickActivate.bind(this));
+
+        // --- Demonstrate Part 1 Functions ---
+        
+        // Task 2.3: Streak
+        const streakStr = '1110110111101'; // Mock data
+        const maxStreak = Utils.getMaxCashbackStreak(streakStr);
+        document.getElementById('streak-display').textContent = maxStreak;
+
+        // Task 1.4: Stats
+        const transactions = [100, 200, 150, 300];
+        const stats = Utils.calculateTransactionStats(transactions);
+        document.getElementById('stats-display').innerHTML = `
+            <div>Обороты за неделю: ${stats.sum} ₽</div>
+            <div>Индекс лояльности: ${stats.mult.toExponential(2)}</div>
+        `;
+
+        // Task 3.1: Merge (Console only demo)
+        const defaultConfig = { theme: 'light', notifications: true };
+        const userConfig = { notifications: false, region: 'RU' };
+        const finalConfig = Utils.mergeAccountConfigs(defaultConfig, userConfig);
+        console.log('Merged Config:', finalConfig);
+
+        // Task 1.9: Fill
+        const history = Utils.initCashbackHistory(5, 'Pending');
+        console.log('Initial History:', history);
+
+        // Initialize 3D
+        this.init3DModel();
     }
 }

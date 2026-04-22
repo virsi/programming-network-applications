@@ -36,6 +36,19 @@ export class ProductComponent {
                         </div>
 
                         <button id="activate-btn" class="btn-activate" data-id="${data.id}">Активировать</button>
+
+                        <div class="stats-card">
+                            <h5 class="mb-3" style="font-weight: 700;">Статистика</h5>
+                            <div class="detail-row">
+                                <span class="detail-label">Макс. серия (дней):</span> 
+                                <span id="streak-display" class="streak-badge">0</span>
+                            </div>
+                            <div id="stats-display" class="mt-2 small opacity-75"></div>
+                        </div>
+
+                        <div id="product-3d-canvas" class="product-3d-container">
+                            <div class="canvas-loading">Загрузка 3D модели...</div>
+                        </div>
                     </div>
                 </div>
             </div>
