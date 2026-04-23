@@ -8,6 +8,9 @@
   },
   "scripts": {
     "start": "npx --yes live-server --port=5501 --no-browser --entry-file=index.html --proxy=/api:http://localhost:3000",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -16,5 +19,8 @@
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.8"
+  },
+  "devDependencies": {
+    "vite": "^8.0.10"
   }
 }
