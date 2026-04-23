@@ -24,14 +24,18 @@ export class ProductPage {
         `;
     }
 
-    getData() {
-        ajax.get(categoriesUrls.getCategoryById(this.id), (data, status) => {
+    async getData() {
+        try {
+            const {data, status} = await ajax.get(categoriesUrls.getCategoryById(this.id));
             if (status >= 200 && status < 300 && data) {
                 this.renderData(data);
                 return;
             }
             this.showToast('Не удалось получить категорию');
-        });
+        } catch (e) {
+            console.error(e);
+            this.showToast('Не удалось получить категорию');
+        }
     }
 
     renderData(data) {
@@ -53,15 +57,19 @@ export class ProductPage {
         editPage.render();
     }
 
-    clickDelete(id) {
-        ajax.delete(categoriesUrls.removeCategoryById(id), (_data, status) => {
+    async clickDelete(id) {
+        try {
+            const {status} = await ajax.delete(categoriesUrls.removeCategoryById(id));
             if (status >= 200 && status < 300) {
                 this.showToast('Категория удалена');
                 this.clickBack();
                 return;
             }
             this.showToast('Не удалось удалить категорию');
-        });
+        } catch (e) {
+            console.error(e);
+            this.showToast('Не удалось удалить категорию');
+        }
     }
 
     clickActivate(e, id) {

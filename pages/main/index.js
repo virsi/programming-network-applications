@@ -38,14 +38,18 @@ export class MainPage {
         `;
     }
 
-    getData() {
-        ajax.get(categoriesUrls.getCategories(this.filter), (data, status) => {
+    async getData() {
+        try {
+            const {data, status} = await ajax.get(categoriesUrls.getCategories(this.filter));
             if (status >= 200 && status < 300 && Array.isArray(data)) {
                 this.renderData(data);
                 return;
             }
             this.showError('Не удалось получить категории');
-        });
+        } catch (e) {
+            console.error(e);
+            this.showError('Не удалось получить категории');
+        }
     }
 
     renderData(items) {

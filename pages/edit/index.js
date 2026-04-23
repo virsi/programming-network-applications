@@ -25,19 +25,22 @@ export class EditPage {
         `;
     }
 
-    loadData(callback) {
+    async loadData() {
         if (this.mode !== 'edit') {
-            callback(null);
-            return;
+            return null;
         }
-        ajax.get(categoriesUrls.getCategoryById(this.id), (data, status) => {
+        try {
+            const {data, status} = await ajax.get(categoriesUrls.getCategoryById(this.id));
             if (status >= 200 && status < 300 && data) {
-                callback(data);
-                return;
+                return data;
             }
             this.showToast('Не удалось загрузить категорию');
-            callback(null);
-        });
+            return null;
+        } catch (e) {
+            console.error(e);
+            this.showToast('Не удалось загрузить категорию');
+            return null;
+        }
     }
 
     validate(payload) {
@@ -50,7 +53,7 @@ export class EditPage {
         return null;
     }
 
-    submit(payload) {
+    async submit(payload) {
         const error = this.validate(payload);
         if (error) {
             this.showToast(error);
@@ -58,25 +61,33 @@ export class EditPage {
         }
 
         if (this.mode === 'edit') {
-            ajax.patch(categoriesUrls.updateCategoryById(this.id), payload, (data, status) => {
+            try {
+                const {status} = await ajax.patch(categoriesUrls.updateCategoryById(this.id), payload);
                 if (status >= 200 && status < 300) {
                     this.showToast('Категория обновлена');
                     new ProductPage(this.parent, this.id).render();
                     return;
                 }
                 this.showToast('Не удалось обновить категорию');
-            });
+            } catch (e) {
+                console.error(e);
+                this.showToast('Не удалось обновить категорию');
+            }
             return;
         }
 
-        ajax.post(categoriesUrls.createCategory(), payload, (data, status) => {
+        try {
+            const {data, status} = await ajax.post(categoriesUrls.createCategory(), payload);
             if (status >= 200 && status < 300 && data) {
                 this.showToast('Категория создана');
                 new MainPage(this.parent).render();
                 return;
             }
             this.showToast('Не удалось создать категорию');
-        });
+        } catch (e) {
+            console.error(e);
+            this.showToast('Не удалось создать категорию');
+        }
     }
 
     cancel() {
@@ -97,7 +108,7 @@ export class EditPage {
         toast.show(message);
     }
 
-    render() {
+    async render() {
         this.parent.innerHTML = '';
         const html = this.getHTML();
         this.parent.insertAdjacentHTML('beforeend', html);
@@ -105,12 +116,11 @@ export class EditPage {
         const backButton = new BackButtonComponent(this.pageRoot);
         backButton.render(this.clickBack.bind(this));
 
-        this.loadData((data) => {
-            const form = new EditFormComponent(this.pageRoot);
-            form.render(data, this.mode, {
-                onSubmit: this.submit.bind(this),
-                onCancel: this.cancel.bind(this),
-            });
+        const data = await this.loadData();
+        const form = new EditFormComponent(this.pageRoot);
+        form.render(data, this.mode, {
+            onSubmit: this.submit.bind(this),
+            onCancel: this.cancel.bind(this),
         });
     }
 }
