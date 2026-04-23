@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const categoriesRouter = require('./routes/categories');
+const cashbackController = require('./controllers/cashbackController');
 const cashbackService = require('./services/cashbackService');
 
 const app = express();
@@ -21,6 +22,7 @@ app.use((req, res, next) => {
 });
 
 // Подключение маршрутов
+app.get('/search', cashbackController.searchCategories);
 app.use('/categories', categoriesRouter);
 
 // Обработка 404
