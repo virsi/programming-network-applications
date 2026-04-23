@@ -2,22 +2,14 @@ import {ProductComponent} from "../../components/product/index.js";
 import {BackButtonComponent} from "../../components/back-button/index.js";
 import {ToastComponent} from "../../components/toast/index.js";
 import {MainPage} from "../main/index.js";
+import {EditPage} from "../edit/index.js";
+import {ajax} from "../../modules/ajax.js";
+import {categoriesUrls} from "../../modules/categoriesUrls.js";
 
 export class ProductPage {
     constructor(parent, id) {
         this.parent = parent;
         this.id = id;
-    }
-
-    getData(id) {
-        const cashbackData = [
-            { id: 1, title: 'Рестораны и кафе', percent: 10, src: 'assets/cafe.png', text: 'Кешбэк за каждый обед и кофе.', details: 'Получайте 10% бонусами за покупки в любых заведениях питания. Акция действует весь апрель.' },
-            { id: 2, title: 'Такси и транспорт', percent: 15, src: 'assets/taxi.png', text: 'Поездки по городу с выгодой.', details: 'Сбер возвращает 15% за Ваши поездки на такси и общественном транспорте. Доступно для владельцев прайм.' },
-            { id: 3, title: 'Супермаркеты', percent: 5, src: 'assets/supermarket.png', text: 'Выгода на продукты каждый день.', details: 'Покупайте продукты в любимых магазинах и возвращайте 5% от суммы чека бонусами СберСпасибо.' },
-            { id: 4, title: 'Одежда и обувь', percent: 20, src: 'assets/fashion.png', text: 'Обновляйте гардероб выгодно.', details: 'Максимальный кешбэк 20% на категорию мода в партнерских магазинах SberID.' }
-        ];
-
-        return cashbackData.find(item => item.id === parseInt(id));
     }
 
     get pageRoot() {
@@ -32,9 +24,44 @@ export class ProductPage {
         `;
     }
 
+    getData() {
+        ajax.get(categoriesUrls.getCategoryById(this.id), (data, status) => {
+            if (status >= 200 && status < 300 && data) {
+                this.renderData(data);
+                return;
+            }
+            this.showToast('Не удалось получить категорию');
+        });
+    }
+
+    renderData(data) {
+        const product = new ProductComponent(this.pageRoot);
+        product.render(data, {
+            onActivate: this.clickActivate.bind(this),
+            onEdit: this.clickEdit.bind(this, data.id),
+            onDelete: this.clickDelete.bind(this, data.id),
+        });
+    }
+
     clickBack() {
         const mainPage = new MainPage(this.parent);
         mainPage.render();
+    }
+
+    clickEdit(id) {
+        const editPage = new EditPage(this.parent, id);
+        editPage.render();
+    }
+
+    clickDelete(id) {
+        ajax.delete(categoriesUrls.removeCategoryById(id), (_data, status) => {
+            if (status >= 200 && status < 300) {
+                this.showToast('Категория удалена');
+                this.clickBack();
+                return;
+            }
+            this.showToast('Не удалось удалить категорию');
+        });
     }
 
     clickActivate(e, id) {
@@ -43,9 +70,7 @@ export class ProductPage {
         const newPercent = parseInt(percentInput.value);
 
         if (isNaN(newPercent) || newPercent < 0 || newPercent > 100) {
-            const toastContainer = document.getElementById('toast-container');
-            const toast = new ToastComponent(toastContainer);
-            toast.show('Введите корректный процент (0–100)');
+            this.showToast('Введите корректный процент (0–100)');
             return;
         }
 
@@ -61,9 +86,13 @@ export class ProductPage {
         btn.innerText = 'Активировано';
         btn.classList.add('active');
 
+        this.showToast('Категория успешно активирована!');
+    }
+
+    showToast(message) {
         const toastContainer = document.getElementById('toast-container');
         const toast = new ToastComponent(toastContainer);
-        toast.show('Категория успешно активирована!');
+        toast.show(message);
     }
 
     render() {
@@ -74,8 +103,6 @@ export class ProductPage {
         const backButton = new BackButtonComponent(this.pageRoot);
         backButton.render(this.clickBack.bind(this));
 
-        const data = this.getData(this.id);
-        const product = new ProductComponent(this.pageRoot);
-        product.render(data, this.clickActivate.bind(this));
+        this.getData();
     }
 }

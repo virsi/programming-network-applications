@@ -1,18 +1,15 @@
 import {ProductCardComponent} from "../../components/product-card/index.js";
+import {FilterComponent} from "../../components/filter/index.js";
+import {ToastComponent} from "../../components/toast/index.js";
 import {ProductPage} from "../product/index.js";
+import {EditPage} from "../edit/index.js";
+import {ajax} from "../../modules/ajax.js";
+import {categoriesUrls} from "../../modules/categoriesUrls.js";
 
 export class MainPage {
     constructor(parent) {
         this.parent = parent;
-    }
-
-    getData() {
-        return [
-            { id: 1, title: 'Рестораны и кафе', percent: 10, src: 'assets/cafe.png', text: 'Кешбэк за каждый обед и кофе.' },
-            { id: 2, title: 'Такси и транспорт', percent: 15, src: 'assets/taxi.png', text: 'Поездки по городу с выгодой.' },
-            { id: 3, title: 'Супермаркеты', percent: 5, src: 'assets/supermarket.png', text: 'Выгода на продукты каждый день.' },
-            { id: 4, title: 'Одежда и обувь', percent: 20, src: 'assets/fashion.png', text: 'Обновляйте гардероб выгодно.' }
-        ];
+        this.filter = '';
     }
 
     get pageRoot() {
@@ -28,7 +25,12 @@ export class MainPage {
                 </div>
                 <h1 class="nav-title mb-2">Выберите категории</h1>
                 <p class="description mb-4">Активируйте до 4-х категорий повышенного кешбэка в этом месяце</p>
-                
+
+                <div class="main-toolbar">
+                    <div id="filter-slot" class="filter-slot"></div>
+                    <button id="add-category-btn" class="btn-primary">+ Добавить категорию</button>
+                </div>
+
                 <div id="dashboard-grid" class="dashboard-grid">
                     <!-- Cards will be rendered here -->
                 </div>
@@ -36,9 +38,47 @@ export class MainPage {
         `;
     }
 
+    getData() {
+        ajax.get(categoriesUrls.getCategories(this.filter), (data, status) => {
+            if (status >= 200 && status < 300 && Array.isArray(data)) {
+                this.renderData(data);
+                return;
+            }
+            this.showError('Не удалось получить категории');
+        });
+    }
+
+    renderData(items) {
+        this.pageRoot.innerHTML = '';
+        if (items.length === 0) {
+            this.pageRoot.insertAdjacentHTML('beforeend', '<p class="description">Ничего не найдено.</p>');
+            return;
+        }
+        items.forEach((item) => {
+            const productCard = new ProductCardComponent(this.pageRoot);
+            productCard.render(item, this.clickCard.bind(this));
+        });
+    }
+
+    showError(message) {
+        const toastContainer = document.getElementById('toast-container');
+        const toast = new ToastComponent(toastContainer);
+        toast.show(message);
+    }
+
     clickCard(id) {
         const productPage = new ProductPage(this.parent, id);
         productPage.render();
+    }
+
+    clickAdd() {
+        const editPage = new EditPage(this.parent, null);
+        editPage.render();
+    }
+
+    applyFilter(value) {
+        this.filter = value;
+        this.getData();
     }
 
     render() {
@@ -46,10 +86,14 @@ export class MainPage {
         const html = this.getHTML();
         this.parent.insertAdjacentHTML('beforeend', html);
 
-        const data = this.getData();
-        data.forEach((item) => {
-            const productCard = new ProductCardComponent(this.pageRoot);
-            productCard.render(item, this.clickCard.bind(this));
-        });
+        const filterSlot = document.getElementById('filter-slot');
+        const filter = new FilterComponent(filterSlot);
+        filter.render(this.applyFilter.bind(this));
+
+        document
+            .getElementById('add-category-btn')
+            .addEventListener('click', this.clickAdd.bind(this));
+
+        this.getData();
     }
 }

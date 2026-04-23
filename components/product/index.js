@@ -20,7 +20,7 @@ export class ProductComponent {
                     <div class="product-info-block">
                         <div>
                             <h1 class="nav-title mb-2" style="font-size: 2rem;">${data.title}</h1>
-                            <p class="description mb-4">${data.details}</p>
+                            <p class="description mb-4">${data.text}</p>
                         </div>
 
                         <div class="conditions-card">
@@ -36,21 +36,36 @@ export class ProductComponent {
                         </div>
 
                         <button id="activate-btn" class="btn-activate" data-id="${data.id}">Активировать</button>
+
+                        <div class="product-actions">
+                            <button id="edit-btn" class="btn-secondary" data-id="${data.id}">Редактировать</button>
+                            <button id="delete-btn" class="btn-danger" data-id="${data.id}">Удалить</button>
+                        </div>
                     </div>
                 </div>
             </div>
         `;
     }
 
-    addListeners(data, listener) {
+    addListeners(data, handlers) {
         document
             .getElementById('activate-btn')
-            .addEventListener("click", (e) => listener(e, data.id));
+            .addEventListener('click', (e) => handlers.onActivate(e, data.id));
+        document
+            .getElementById('edit-btn')
+            .addEventListener('click', handlers.onEdit);
+        document
+            .getElementById('delete-btn')
+            .addEventListener('click', () => {
+                if (confirm('Удалить категорию?')) {
+                    handlers.onDelete();
+                }
+            });
     }
 
-    render(data, listener) {
+    render(data, handlers) {
         const html = this.getHTML(data);
         this.parent.insertAdjacentHTML('beforeend', html);
-        this.addListeners(data, listener);
+        this.addListeners(data, handlers);
     }
 }
