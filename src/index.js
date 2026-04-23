@@ -21,12 +21,15 @@ app.use((req, res, next) => {
     next();
 });
 
-// Подключение маршрутов
-app.get('/search', cashbackController.searchCategories);
-app.use('/categories', categoriesRouter);
+// Раздача собранного фронтенда как статики
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Обработка 404
-app.use((req, res) => {
+// Подключение маршрутов
+app.get('/api/search', cashbackController.searchCategories);
+app.use('/api/categories', categoriesRouter);
+
+// Обработка 404 для API
+app.use('/api', (req, res) => {
     res.status(404).json({ error: 'Маршрут не найден' });
 });
 
