@@ -50,9 +50,16 @@ class Ajax {
     }
 
     _handleResponse(xhr, callback) {
+        const contentType = xhr.getResponseHeader('Content-Type') || '';
+        const isJson = contentType.includes('application/json');
+
+        if (!xhr.responseText || !isJson) {
+            callback(null, xhr.status);
+            return;
+        }
+
         try {
-            const data = xhr.responseText ? JSON.parse(xhr.responseText) : null;
-            callback(data, xhr.status);
+            callback(JSON.parse(xhr.responseText), xhr.status);
         } catch (e) {
             console.error('Ошибка парсинга JSON:', e);
             callback(null, xhr.status);
