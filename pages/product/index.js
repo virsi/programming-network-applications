@@ -157,33 +157,25 @@ export class ProductPage {
         product.render(data, this.clickActivate.bind(this));
 
         // --- Demonstrate Part 1 Functions ---
-        // Все входные данные собираются у пользователя через prompt() в консоли.
-        const {
-            streakStr,
-            transactions,
-            defaultConfig,
-            userConfig,
-            historyCount,
-            historyValue,
-        } = Utils.readCashbackInputsFromConsole();
-
-        // Task 2.3: Streak
+        // Демо-данные на UI. Реальный ввод задач делается через `node cli.js`.
+        const streakStr = '1110110111101';
         const maxStreak = Utils.getMaxCashbackStreak(streakStr);
         document.getElementById('streak-display').textContent = maxStreak;
 
-        // Task 1.4: Stats
+        const transactions = [100, 200, 150, 300];
         const stats = Utils.calculateTransactionStats(transactions);
         document.getElementById('stats-display').innerHTML = `
             <div>Обороты за неделю: ${stats.sum} ₽</div>
             <div>Индекс лояльности: ${stats.mult.toExponential(2)}</div>
         `;
 
-        // Task 3.1: Merge
-        const finalConfig = Utils.mergeAccountConfigs(defaultConfig, userConfig);
+        const finalConfig = Utils.mergeAccountConfigs(
+            { theme: 'light', notifications: true },
+            { notifications: false, region: 'RU' },
+        );
         console.log('Merged Config:', finalConfig);
 
-        // Task 1.9: Fill
-        const history = Utils.initCashbackHistory(historyCount, historyValue);
+        const history = Utils.initCashbackHistory(5, 'Pending');
         console.log('Initial History:', history);
 
         // Initialize 3D
