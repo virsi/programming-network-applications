@@ -4,6 +4,8 @@
 > **Курс:** «Программирование сетевых приложений» (БМСТУ).
 > **База:** ветка `cards-layout` + Express-бэкенд из `express-js-cards`.
 
+📖 **Методичка преподавателя:** [iu5git/JavaScript — tutorials/fetch](https://github.com/iu5git/JavaScript/blob/main/tutorials/fetch/README.md)
+
 ---
 
 ## 📌 Что было сделано
