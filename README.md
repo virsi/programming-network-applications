@@ -4,6 +4,8 @@
 > **Курс:** «Программирование сетевых приложений» (БМСТУ).
 > **База:** ветка `calculator-layout` (HTML/CSS уже готовы).
 
+📖 **Методичка преподавателя:** [iu5git/JavaScript — tutorials/lab2](https://github.com/iu5git/JavaScript/blob/main/tutorials/lab2/README.md)
+
 ---
 
 ## 📌 Что было сделано
