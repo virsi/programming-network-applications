@@ -11,16 +11,18 @@
 
 ## 🗺 Карта веток
 
-| #  | Ветка                | Тема                                 | Стек                                 |
-| -- | -------------------- | ------------------------------------ | ------------------------------------ |
-| 1  | `calculator-layout`  | HTML/CSS-вёрстка калькулятора        | HTML5, CSS Grid, light/dark themes   |
-| 2  | `calc-implementation`| JS-логика калькулятора               | Vanilla JS, машина состояний         |
-| 3  | `cards-layout`       | SPA с кешбэк-карточками              | Vanilla JS + Bootstrap 5             |
-| 4  | `three-js-gallery`   | База для 3D-галереи                  | подготовка к Three.js                |
-| 5  | `cors-lab`           | XMLHttpRequest и CORS                | XHR + live-server proxy              |
-| 6  | `fetch-lab`          | Fetch API + CRUD                     | `fetch`, async/await, Vite           |
-| 7  | `express-js-cards`   | REST-бэкенд                          | Node.js, Express 5, JSON-storage     |
-| 8  | `hw1`                | ДЗ: алгоритмы JS + интеграция в UI   | Vanilla JS, Three.js, prompt-ввод    |
+| #  | Ветка                | Тема                                 | Стек                                 | Методичка преподавателя |
+| -- | -------------------- | ------------------------------------ | ------------------------------------ | ----------------------- |
+| 1  | `calculator-layout`  | HTML/CSS-вёрстка калькулятора        | HTML5, CSS Grid, light/dark themes   | [tutorials/lab1](https://github.com/iu5git/JavaScript/blob/main/tutorials/lab1/README.md) |
+| 2  | `calc-implementation`| JS-логика калькулятора               | Vanilla JS, машина состояний         | [tutorials/lab2](https://github.com/iu5git/JavaScript/blob/main/tutorials/lab2/README.md) |
+| 3  | `cards-layout`       | SPA с кешбэк-карточками              | Vanilla JS + Bootstrap 5             | [tutorials/lab3](https://github.com/iu5git/JavaScript/blob/main/tutorials/lab3/README.md) |
+| 4  | `three-js-gallery`   | База для 3D-галереи                  | подготовка к Three.js                | [tutorials/threejs](https://github.com/iu5git/JavaScript/blob/main/tutorials/threejs/README.md) |
+| 5  | `cors-lab`           | XMLHttpRequest и CORS                | XHR + live-server proxy              | [tutorials/ajax](https://github.com/iu5git/JavaScript/blob/main/tutorials/ajax/README.md) |
+| 6  | `fetch-lab`          | Fetch API + CRUD                     | `fetch`, async/await, Vite           | [tutorials/fetch](https://github.com/iu5git/JavaScript/blob/main/tutorials/fetch/README.md) |
+| 7  | `express-js-cards`   | REST-бэкенд                          | Node.js, Express 5, JSON-storage     | [tutorials/backend/example-expressjs](https://github.com/iu5git/JavaScript/blob/main/tutorials/backend/example-expressjs/README.md) |
+| 8  | `hw1`                | ДЗ: алгоритмы JS + интеграция в UI   | Vanilla JS, Three.js, prompt-ввод    | [tutorials/hw1](https://github.com/iu5git/JavaScript/blob/main/tutorials/hw1/README.md) + [tutorials/threejs](https://github.com/iu5git/JavaScript/blob/main/tutorials/threejs/README.md) |
+
+📖 Общий репозиторий методичек преподавателя: [github.com/iu5git/JavaScript](https://github.com/iu5git/JavaScript)
 
 ---
 
