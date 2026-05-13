@@ -4,6 +4,8 @@
 > интерактивной 3D-сценой».
 > **Курс:** «Программирование сетевых приложений» (БМСТУ).
 
+📖 **Методичка преподавателя:** [iu5git/JavaScript — tutorials/threejs](https://github.com/iu5git/JavaScript/blob/main/tutorials/threejs/README.md)
+
 ---
 
 ## 📌 Что было сделано
