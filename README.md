@@ -4,6 +4,10 @@
 > в реальное веб-приложение «Sber Cashback».
 > **Курс:** «Программирование сетевых приложений» (БМСТУ).
 
+📖 **Методички преподавателя ([iu5git/JavaScript](https://github.com/iu5git/JavaScript)):**
+- [Часть 1 — задачи на коллекции](https://github.com/iu5git/JavaScript/blob/main/tutorials/hw1/README.md)
+- [Часть 2 — интеграция Three.js](https://github.com/iu5git/JavaScript/blob/main/tutorials/threejs/README.md)
+
 ---
 
 ## 📌 Что было сделано
