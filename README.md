@@ -5,6 +5,8 @@
 > **Курс:** «Программирование сетевых приложений» (БМСТУ).
 > **Применение:** API, который кушают фронт-ветки `cors-lab` и `fetch-lab`.
 
+📖 **Методичка преподавателя:** [iu5git/JavaScript — tutorials/backend/example-expressjs](https://github.com/iu5git/JavaScript/blob/main/tutorials/backend/example-expressjs/README.md)
+
 ---
 
 ## 📌 Что было сделано
